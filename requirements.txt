@@ -1,0 +1,5 @@
+simple-salesforce
+pandas
+requests
+keyring
+ipykernel
