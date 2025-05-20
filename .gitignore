@@ -1,0 +1,5 @@
+# Ignorar o arquivo com credenciais
+senhas.py
+
+# Ignorar arquivos csv gerados
+*.csv
