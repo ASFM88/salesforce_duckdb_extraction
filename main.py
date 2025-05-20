@@ -31,8 +31,8 @@ salvar_em_duckdb(df_account, tabela="sf_account")
 print(f"✅ Account: {len(df_account)} registros salvos.")
 
 # Consulta Order
-records_contact = consultar_completo("SELECT Id, OrderNumber FROM Order")
-df_order = pd.DataFrame(records_contact).drop(columns='attributes')
+records_order = consultar_completo("SELECT Id, OrderNumber FROM Order")
+df_order = pd.DataFrame(records_order).drop(columns='attributes')
 salvar_em_duckdb(df_order, tabela="sf_order")
 print(f"✅ Contact: {len(df_order)} registros salvos.")
 
