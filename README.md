@@ -14,10 +14,10 @@ Automatizar a extração de dados do Salesforce (ex: contas, contatos, pedidos e
 
 - Python 3.12+
 - [`simple-salesforce`](https://pypi.org/project/simple-salesforce/)
-- `requests`
-- `pandas`
+- `pandas` (manipulação de dados)
 - `keyring` (armazenamento seguro de credenciais)
-- Visual Studio Code com suporte a Python Interactive (`# %%`)
+- `duckdb` (banco de dados local em arquivo único)
+- VSCode com Python Interactive / Preview (opcional)
 
 ---
 
@@ -62,8 +62,8 @@ keyring.set_password("salesforce", "SF_TOKEN", "seu_token_de_segurança")
 python main.py
 ```
 
-### 5. Arquivo de saída:
-- O resultado será salvo como `accounts_salesforce.csv` no diretório atual do projeto.
+### 5. Arquivo de saída CSV:
+- O resultado será salvo como `teste_account_salesforce.csv` no diretório atual do projeto.
 
 ---
 
@@ -71,10 +71,12 @@ python main.py
 
 ```
 .
-├── main.py              # Script principal para consulta e exportação
-├── .gitignore           # Ignora CSVs, credenciais e arquivos temporários
-├── README.md            # Este arquivo
-└── requirements.txt     # Dependências do projeto
+├── main.py              # Script principal de extração e gravação no banco
+├── db_utils.py          # Função auxiliar para salvar DataFrame no DuckDB
+├── db/                  # Contém o banco local (dados_salesforce.duckdb)
+├── .gitignore           # Arquivos ignorados no controle de versão
+├── requirements.txt     # Bibliotecas necessárias
+└── README.md            # Documentação do projeto
 ```
 
 ---
@@ -85,14 +87,20 @@ python main.py
 - 💾 Exportação direta para CSV.
 - 🔐 Armazenamento seguro de credenciais com `keyring`.
 - 🧠 Uso interativo possível via VSCode com Python Preview ou Interactive Window.
-
+- 🦆 Uso do DuckDB com múltiplas tabelas.
 ---
+
+## 🔎 Sobre o banco DuckDB
+
+- Armazenado como arquivo único (`.duckdb`)
+- Portável entre máquinas
+- SQL completo (joins, CTEs, filtros, etc.)
+- O arquivo `.wal` (Write-Ahead Log) é criado temporariamente durante escritas e pode desaparecer após `conn.close()`
 
 ## 🚀 Possíveis melhorias futuras
 
 - Consulta dinâmica de diferentes objetos Salesforce.
-- Exportação para banco de dados.
-- Interface gráfica ou CLI para facilitar uso.
+- Atualização incremental das tabelas DuckDB.
 
 ---
 

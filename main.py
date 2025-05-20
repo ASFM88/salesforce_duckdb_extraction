@@ -1,7 +1,9 @@
 # %%
-from simple_salesforce import Salesforce
 import pandas as pd
 import keyring # type: ignore
+import duckdb # type: ignore
+from simple_salesforce import Salesforce
+from db_utils import salvar_em_duckdb
 
 # Recupera do cofre de senhas
 username = keyring.get_password("salesforce", "SF_USER")
@@ -13,31 +15,48 @@ sf = Salesforce(username=username,
                 password=password,
                 security_token=token)
 
-# Consulta Simples Account
-query_result = sf.query("SELECT Id, Name FROM Account")
+# Função auxiliar para paginação
+def consultar_completo(query):
+    resultado = sf.query(query)
+    registros = resultado['records']
+    while not resultado['done']:
+        resultado = sf.query_more(resultado['nextRecordsUrl'], True)
+        registros.extend(resultado['records'])
+    return registros
 
-# Armazena todos os registros (inicialmente os 2 mil primeiros ou menos)
-all_records = query_result['records']
+# Consulta Account 
+records_account = consultar_completo("SELECT Id, Name FROM Account")
+df_account = pd.DataFrame(records_account).drop(columns='attributes')
+salvar_em_duckdb(df_account, tabela="sf_account")
+print(f"✅ Account: {len(df_account)} registros salvos.")
 
-# Continua buscando até que 'done' seja True
-while not query_result['done']:
-    query_result = sf.query_more(query_result['nextRecordsUrl'], True)
-    all_records.extend(query_result['records'])
-
-# Agora sobrescreve o query_result com tudo
-query_result['records'] = all_records
-query_result['totalSize'] = len(all_records)
-query_result['done'] = True
-
-# Exemplo: mostrar total
-print(f"Total de registros completos: {query_result['totalSize']}")
-
-# Conversão dos dados para DataFrame
-df = pd.DataFrame(query_result['records']).drop(columns='attributes')
-
-# Exibição como tabela
-print(df)
+# Consulta Order
+records_contact = consultar_completo("SELECT Id, OrderNumber FROM Order")
+df_order = pd.DataFrame(records_contact).drop(columns='attributes')
+salvar_em_duckdb(df_order, tabela="sf_order")
+print(f"✅ Contact: {len(df_order)} registros salvos.")
 
 # Salvar em CSV
-df.to_csv("teste_account_salesforce.csv", index=False)
+df_account.to_csv("teste_account_salesforce.csv", index=False)
+
+# Conectando e listando as tabelas criadas
+conn = duckdb.connect("db/dados_salesforce.duckdb")
+tables = conn.execute("SHOW TABLES").fetchall()
+print("Tabelas existentes:", tables)
+
+# Excluindo tabela DuckDB
+    # conn.execute("DROP TABLE IF EXISTS account")
+    # tables = conn.execute("SHOW TABLES").fetchall()
+    # print("Tabelas existentes:", tables)
+
+# Verifica a estrutura da tabela
+conn.execute("DESCRIBE sf_order").fetchdf()
+conn.execute("DESCRIBE sf_account").fetchdf()
+
+# Consulta as tabelas
+consulta_order = conn.execute("SELECT * FROM sf_order where Id = '8014y000002rFK2AAM' limit 10").fetchdf()
+print(consulta_order)
+
+# Encerrar conexão ativa com banco DuckDB
+conn.close()
 # %%

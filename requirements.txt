@@ -2,4 +2,5 @@ simple-salesforce
 pandas
 requests
 keyring
+duckdb
 ipykernel

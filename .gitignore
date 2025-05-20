@@ -1,5 +1,25 @@
-# Ignorar o arquivo com credenciais
+# Ignorar arquivos de credenciais e banco de dados
+*.duckdb
+*.duckdb.wal
 senhas.py
 
-# Ignorar arquivos csv gerados
+# Ignorar exportações e arquivos temporários
 *.csv
+*.xlsx
+*.log
+
+# Ignorar cache do Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Ignorar arquivos de ambiente virtual
+.venv/
+env/
+venv/
+
+# VSCode
+.vscode/
+
+# Jupyter e Interactive Window
+.ipynb_checkpoints/
