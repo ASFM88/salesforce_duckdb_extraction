@@ -112,6 +112,22 @@ python main.py
 - Pode ser acessado visualmente com ferramentas como [DB Browser for SQLite](https://sqlitebrowser.org)
 - Não gera `.wal` por padrão, mas pode usar journal para controle de integridade em transações
 
+## 🕵️‍♂️ Visualizando os dados com inspector.py
+
+Você pode usar o script `inspector.py` para inspecionar rapidamente os dados salvos nos bancos locais (DuckDB e SQLite).
+
+### ▶️ Como usar:
+
+```bash
+python inspector.py
+```
+
+### O que ele faz:
+
+- Lista todas as tabelas existentes no `db/dados_salesforce.duckdb` e `db/dados_salesforce.db`
+- Exibe a estrutura (campos e tipos) de cada tabela
+- Mostra os 5 primeiros registros de cada uma para amostragem
+
 
 ## 🚀 Possíveis melhorias futuras
 
