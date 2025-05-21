@@ -13,7 +13,7 @@ Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca
 ```
 .
 ├── raw_builder.py                  # Extrai dados brutos do Salesforce e salva em RAW (.duckdb)
-├── stage_builder.py                         # Transformação e carregamento para camada STAGE (tipagem e limpeza)
+├── stage_builder.py                # Transformação e carregamento para camada STAGE (tipagem e limpeza)
 ├── trusted_builder.py              # Transformação e carregamento para camada TRUSTED (modelagem final)
 ├── gitignore                       # Arquivos que devem ser ignorados.
 ├── requirements.txt
