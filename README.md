@@ -6,7 +6,7 @@ Este repositório contém um script em Python desenvolvido para consultar regist
 
 ## 📌 Objetivo
 
-Automatizar a extração de dados do Salesforce (ex: contas, contatos, pedidos etc.), estruturando as informações em um `DataFrame` e exportando para CSV, possibilitando análises locais ou integração com outras ferramentas.
+Automatizar a extração de dados do Salesforce (ex: contas, contatos, pedidos etc.), estruturando as informações em um `DataFrame` e exportando para CSV ou armazenando Banco DuckDB e SQLite, possibilitando análises locais ou integração com outras ferramentas.
 
 ---
 
@@ -112,7 +112,6 @@ python main.py
 ## 🚀 Possíveis melhorias futuras
 
 - Atualização incremental das tabelas DuckDB e SQLite.
-- Consulta de colunas disponíveis nos Objetos Salesforce?
 - Automatização da atualização.
 
 ---

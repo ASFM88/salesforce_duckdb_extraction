@@ -32,6 +32,25 @@ objetos_soql = {
     "sf_order": "SELECT Id, Status, EffectiveDate FROM Order"
 }
 
+# Extrair nome do objeto Salesforce a partir da string SOQL
+def extrair_nome_objeto(soql):
+    tokens = soql.upper().split("FROM")
+    if len(tokens) > 1:
+        return tokens[1].strip().split()[0]  # Pega o nome do objeto após "FROM"
+    return None
+
+# Visualizar os campos disponíveis nos Objetos consultados.
+for tabela_local, soql in objetos_soql.items():
+    nome_objeto = extrair_nome_objeto(soql)
+    try:
+        descricao = getattr(sf, nome_objeto).describe()
+        campos = [f["name"] for f in descricao["fields"]]
+        print(f"\n📋 Campos do objeto {nome_objeto}:")
+        print(set(campos))
+    except Exception as e:
+        print(f"❌ Erro ao descrever o objeto {nome_objeto}: {e}")
+
+
 # Salvar em CSV
 # df_account.to_csv("teste_account_salesforce.csv", index=False)
 
