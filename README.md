@@ -13,7 +13,7 @@ Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca
 ```
 .
 ├── raw_builder.py                  # Extrai dados brutos do Salesforce e salva em RAW (.duckdb)
-├── main.py                         # Transformação e carregamento para camada STAGE (tipagem e limpeza)
+├── stage_builder.py                         # Transformação e carregamento para camada STAGE (tipagem e limpeza)
 ├── trusted_builder.py              # Transformação e carregamento para camada TRUSTED (modelagem final)
 ├── gitignore                       # Arquivos que devem ser ignorados.
 ├── requirements.txt
@@ -46,21 +46,31 @@ python raw_builder.py
 
 ---
 
-### 2. Gerar camada TRUSTED a partir da STAGE
+### 2. Gerar camada STAGE a partir da RAW
+
+```bash
+python stage_builder.py
+```
+
+- Usa `simple_salesforce` para autenticação e extração
+- Salva objetos do Salesforce em `db/stage_salesforce.duckdb`
+
+---
+
+### 3. Gerar camada TRUSTED a partir da STAGE
 
 ```bash
 python trusted_builder.py
 ```
 
 - Lê as tabelas da `stage_salesforce.duckdb`
-- Padroniza nomes de colunas (`snake_case`)
+- Padroniza nomes de colunas
 - Mantém apenas os campos relevantes por tabela
 - Salva resultado final em `trusted_salesforce.duckdb`
-- Escapa nomes reservados (ex: `order`) com aspas
 
 ---
 
-### 3. Inspecionar as camadas e tabelas disponíveis
+### 4. Inspecionar as camadas e tabelas disponíveis
 
 ```bash
 python inspector.py
@@ -92,6 +102,7 @@ As transformações são aplicadas com suporte do módulo `utils/transform_utils
 - Criar backup do `stage_salesforce.duckdb` no SQLite.
 - Adicionar novas funções para tratamento dos dados no módulo `utils/transform_utils.py`
 - Inclusão atualização incremental do `raw_salesforce.duckdb`
+- Criar um `run_pipeline.py` que execute RAW ➝ STAGE ➝ TRUSTED
 
 ---
 
