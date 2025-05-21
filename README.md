@@ -2,6 +2,10 @@
 
 Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca `simple_salesforce`, e armazena os dados localmente em **camadas** usando o banco de dados **DuckDB**. A estrutura segue boas práticas de arquitetura de dados para ambientes de ETL/ELT.
 
+![Python](https://img.shields.io/badge/Python-3.12%2B-blue)
+![DuckDB](https://img.shields.io/badge/DuckDB-embedded-lightgrey)
+![Salesforce](https://img.shields.io/badge/Salesforce-API--v59-00A1E0)
+
 ---
 
 ## 📁 Estrutura do Projeto
@@ -10,64 +14,89 @@ Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca
 .
 ├── raw_builder.py                  # Extrai dados brutos do Salesforce e salva em RAW (.duckdb)
 ├── main.py                         # Transformação e carregamento para camada STAGE (tipagem e limpeza)
-├── trusted_builder.py (futuro)     # Transformação e carregamento para camada TRUSTED (modelagem final)
-├── transform_utils.py (futuro)     # Funções auxiliares para tratamento
-├── sf_utils.py                     # Funções auxiliares de integração com Salesforce
-├── db_utils.py                     # Funções para salvar e carregar dados do DuckDB e SQLite
-├── inspector.py                    # Explora tabelas e dados salvos localmente
+├── trusted_builder.py              # Transformação e carregamento para camada TRUSTED (modelagem final)
+├── gitignore                       # Arquivos que devem ser ignorados.
 ├── requirements.txt
 ├── README.md
+├── utils/
+│   ├── transform_utils.py          # Funções auxiliares para tratamento
+│   ├── sf_utils.py                 # Funções auxiliares de integração com Salesforce
+│   └── db_utils.py                 # Funções para salvar e carregar dados do DuckDB e SQLite
+├── tools/
+│   └──inspector.py                 # Explora tabelas e dados salvos localmente
 └── db/
-    ├── raw_salesforce.duckdb       # Camada RAW: dados brutos do Salesforce
-    ├── stage_salesforce.duckdb     # Dados parcialmente tratados
-    └── (trusted_salesforce.duckdb) # (Futuro) Dados prontos para análise
+│   ├── raw_salesforce.duckdb       # Camada RAW: dados brutos extraídos
+│   ├── stage_salesforce.duckdb     # Camada STAGE: dados levemente tratados
+│   └── trusted_salesforce.duckdb   # Camada TRUSTED: dados prontos para análise
+
 ```
 
 ---
 
 ## 🚀 Como usar
 
-### 1. Extração dos dados RAW (todos os campos disponíveis)
+### 1. Extrair dados do Salesforce → camada RAW
 
 ```bash
 python raw_builder.py
 ```
 
-- Conecta-se ao Salesforce via `keyring`
-- Usa `describe()` para consultar todos os campos de cada objeto
-- Salva os dados crus em `db/raw_salesforce.duckdb`
+- Usa `simple_salesforce` para autenticação e extração
+- Salva objetos do Salesforce em `db/raw_salesforce.duckdb`
 
 ---
 
-## 🔍 Visualizar os dados com `inspector.py`
+### 2. Gerar camada TRUSTED a partir da STAGE
+
+```bash
+python trusted_builder.py
+```
+
+- Lê as tabelas da `stage_salesforce.duckdb`
+- Padroniza nomes de colunas (`snake_case`)
+- Mantém apenas os campos relevantes por tabela
+- Salva resultado final em `trusted_salesforce.duckdb`
+- Escapa nomes reservados (ex: `order`) com aspas
+
+---
+
+### 3. Inspecionar as camadas e tabelas disponíveis
 
 ```bash
 python inspector.py
 ```
 
-- Lista todas as tabelas do banco
-- Mostra estrutura de colunas e amostras de registros
-- Funciona tanto para DuckDB quanto para SQLite
+- Lista as tabelas presentes nas camadas RAW, STAGE e TRUSTED
+- Mostra quantidade de colunas e registros por tabela
+- Ajuda a validar o pipeline e depurar inconsistências
 
 ---
 
-## 📌 Próximos passos (em desenvolvimento)
+## ✅ Transformações aplicadas
 
-- Criar `stage_utils.py` para tratamento de tipos, limpeza e enriquecimento
-- Refatorar `main.py` para carregar dados tratados na camada TRUSTED
-- Exportar versão final para SQLite (somente a camada TRUSTED)
+As transformações são aplicadas com suporte do módulo `utils/transform_utils.py`, contendo funções como:
+
+- `padronizar_colunas()` → minúsculas, snake_case, remove caracteres especiais
+- `manter_colunas()` → mantém apenas campos desejados por tabela (ignora faltantes)
 
 ---
 
 ## 🔐 Segurança
 
 - As credenciais do Salesforce são armazenadas com `keyring`, fora do código-fonte.
-- Arquivos `.db`, `.duckdb` e `.csv` são ignorados no `.gitignore`.
+- Arquivos `.db`, `.duckdb` e `.csv` devem ser ignorados via `.gitignore`.
+
+---
+
+📌 Próximos passos (em desenvolvimento)
+- Criar backup do `stage_salesforce.duckdb` no SQLite.
+- Adicionar novas funções para tratamento dos dados no módulo `utils/transform_utils.py`
+- Inclusão atualização incremental do `raw_salesforce.duckdb`
 
 ---
 
 ## 🙋‍♂️ Contribuições
 
-Sinta-se à vontade para sugerir melhorias, organizar scripts em camadas, ou adaptar para outro CRM.
+Sinta-se à vontade para sugerir melhorias, modularizar mais ainda o projeto, ou adaptar para outras fontes (ex: HubSpot, SAP, Google Sheets).
 
 ---

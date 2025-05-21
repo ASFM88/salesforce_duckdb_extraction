@@ -13,31 +13,30 @@ BANCOS_DUCKDB = {
 }
 
 
-def inspecionar_duckdb(nome_camada, caminho):
-    caminho = str(caminho)
-    print(f"\n🦆 DuckDB ({nome_camada}) - {caminho}")
+def inspecionar_banco(nome: str, caminho: str):
+    print(f"\n📁 {nome.upper()} - {caminho}")
     if not os.path.exists(caminho):
         print("❌ Banco não encontrado.")
         return
 
-    conn = duckdb.connect(caminho)
-    tabelas = conn.execute("SHOW TABLES").fetchall()
+    con = duckdb.connect(caminho)
+    tabelas = con.execute("SHOW TABLES").fetchall()
 
     if not tabelas:
         print("⚠️ Nenhuma tabela encontrada.")
-        conn.close()
         return
 
-    for t in tabelas:
-        nome = t[0]
-        print(f"\n📋 Tabela: {nome}")
-        print("- Campos:")
-        print(conn.execute(f'DESCRIBE "{nome}"').fetchdf())
-        print("- Amostra de dados:")
-        print(conn.execute(f'SELECT * FROM "{nome}" LIMIT 5').fetchdf())
+    for (tabela,) in tabelas:
+        try:
+            df = con.execute(f'SELECT * FROM "{tabela}" LIMIT 5').fetchdf()
+            total = con.execute(f'SELECT COUNT(*) FROM "{tabela}"').fetchone()[0]
+            print(f"🟢 {tabela} — {df.shape[1]} colunas | {total} linhas")
+        except Exception as e:
+            print(f"🔴 Erro ao ler '{tabela}': {e}")
 
-    conn.close()
+    con.close()
+
 
 if __name__ == "__main__":
-    for camada, caminho in BANCOS_DUCKDB.items():
-        inspecionar_duckdb(camada, caminho)
+    for camada, path in BANCOS_DUCKDB.items():
+        inspecionar_banco(camada, path)
