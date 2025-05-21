@@ -24,7 +24,7 @@ Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca
 │   └── db_utils.py                 # Funções para salvar e carregar dados do DuckDB e SQLite
 ├── tools/
 │   └──inspector.py                 # Explora tabelas e dados salvos localmente
-└── db/
+├── db/
 │   ├── raw_salesforce.duckdb       # Camada RAW: dados brutos extraídos
 │   ├── stage_salesforce.duckdb     # Camada STAGE: dados levemente tratados
 │   └── trusted_salesforce.duckdb   # Camada TRUSTED: dados prontos para análise
