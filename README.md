@@ -17,6 +17,7 @@ Automatizar a extração de dados do Salesforce (ex: contas, contatos, pedidos e
 - `pandas` (manipulação de dados)
 - `keyring` (armazenamento seguro de credenciais)
 - `duckdb` (banco de dados local em arquivo único)
+- `sqlite3` (banco de dados local em arquivo único)
 - VSCode com Python Interactive / Preview (opcional)
 
 ---
@@ -88,6 +89,7 @@ python main.py
 - 🔐 Armazenamento seguro de credenciais com `keyring`.
 - 🧠 Uso interativo possível via VSCode com Python Preview ou Interactive Window.
 - 🦆 Uso do DuckDB com múltiplas tabelas.
+- 🧩 Uso do SQLite com múltiplas tabelas.
 ---
 
 ## 🔎 Sobre o banco DuckDB
@@ -97,10 +99,21 @@ python main.py
 - SQL completo (joins, CTEs, filtros, etc.)
 - O arquivo `.wal` (Write-Ahead Log) é criado temporariamente durante escritas e pode desaparecer após `conn.close()`
 
+## 💾 Sobre o banco SQLite
+
+- Armazenado como um único arquivo (`.db`)
+- Altamente compatível com diversos sistemas e linguagens
+- Ideal para aplicações locais e manipulação de dados leve a moderada
+- Permite operações `CRUD` completas (`INSERT`, `UPDATE`, `DELETE`, `SELECT`)
+- Pode ser acessado visualmente com ferramentas como [DB Browser for SQLite](https://sqlitebrowser.org)
+- Não gera `.wal` por padrão, mas pode usar journal para controle de integridade em transações
+
+
 ## 🚀 Possíveis melhorias futuras
 
 - Consulta dinâmica de diferentes objetos Salesforce.
-- Atualização incremental das tabelas DuckDB.
+- Atualização incremental das tabelas DuckDB e SQLite.
+- Automatização da atualização.
 
 ---
 

@@ -3,4 +3,5 @@ pandas
 requests
 keyring
 duckdb
+sqlite3
 ipykernel

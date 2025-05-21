@@ -1,6 +1,7 @@
 # Ignorar arquivos de credenciais e banco de dados
 *.duckdb
 *.duckdb.wal
+*.db
 senhas.py
 
 # Ignorar exportações e arquivos temporários
