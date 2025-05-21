@@ -5,6 +5,7 @@ import duckdb # type: ignore
 import sqlite3 # type: ignore
 from simple_salesforce import Salesforce
 from db_utils import salvar_em_duckdb, salvar_em_sqlite
+from sf_utils import consultar_completo, extrair_nome_objeto
 
 # Recupera do cofre de senhas
 username = keyring.get_password("salesforce", "SF_USER")
@@ -16,28 +17,12 @@ sf = Salesforce(username=username,
                 password=password,
                 security_token=token)
 
-# Função auxiliar para paginação
-def consultar_completo(query):
-    resultado = sf.query(query)
-    registros = resultado['records']
-    while not resultado['done']:
-        resultado = sf.query_more(resultado['nextRecordsUrl'], True)
-        registros.extend(resultado['records'])
-    return registros
-
 # Dicionário com nome da tabela local e a respectiva consulta SOQL
 objetos_soql = {
     "sf_account": "SELECT Id, Name FROM Account",
     "sf_contact": "SELECT Id, LastName, Email FROM Contact",
     "sf_order": "SELECT Id, Status, EffectiveDate FROM Order"
 }
-
-# Extrair nome do objeto Salesforce a partir da string SOQL
-def extrair_nome_objeto(soql):
-    tokens = soql.upper().split("FROM")
-    if len(tokens) > 1:
-        return tokens[1].strip().split()[0]  # Pega o nome do objeto após "FROM"
-    return None
 
 # Visualizar os campos disponíveis nos Objetos consultados.
 for tabela_local, soql in objetos_soql.items():
@@ -50,26 +35,25 @@ for tabela_local, soql in objetos_soql.items():
     except Exception as e:
         print(f"❌ Erro ao descrever o objeto {nome_objeto}: {e}")
 
-
 # Salvar em CSV
 # df_account.to_csv("teste_account_salesforce.csv", index=False)
 
-# Loop para consultar e salvar os dados de cada objeto
-for tabela, soql in objetos_soql.items():
-    print(f"🔍 Consultando {tabela}...")
+# Loop dinâmico para consultar e salvar cada objeto
+for nome_tabela, soql in objetos_soql.items():
+    print(f"🔍 Consultando {nome_tabela}...")
 
     try:
-        registros = consultar_completo(soql)
+        registros = consultar_completo(sf, soql)
         df = pd.DataFrame(registros).drop(columns='attributes')
-        
-        # Salva em DuckDB e SQLite
-        salvar_em_duckdb(df, tabela=tabela)
-        salvar_em_sqlite(df, tabela=tabela)
 
-        print(f"✅ {tabela}: {len(df)} registros salvos em DuckDB e SQLite.")
-    
+        salvar_em_duckdb(df, tabela=nome_tabela)
+        salvar_em_sqlite(df, tabela=nome_tabela)
+
+        print(f"✅ {nome_tabela}: {len(df)} registros salvos em DuckDB e SQLite.\n")
+
     except Exception as e:
-        print(f"❌ Erro ao consultar {tabela}: {e}")
+        nome_objeto = extrair_nome_objeto(soql)
+        print(f"❌ Erro ao consultar {nome_objeto} → {e}")
 
 
 # Conectando e listando as tabelas criadas DuckDB

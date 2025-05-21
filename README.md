@@ -74,6 +74,7 @@ python main.py
 .
 ├── main.py              # Script principal de extração e gravação no banco
 ├── db_utils.py          # Função auxiliar para salvar DataFrame no DuckDB
+├── sf_utils.py          # Funções auxiliares do Salesforce (SOQL, describe, paginação)
 ├── db/                  # Contém o banco local (dados_salesforce.duckdb)
 ├── .gitignore           # Arquivos ignorados no controle de versão
 ├── requirements.txt     # Bibliotecas necessárias
