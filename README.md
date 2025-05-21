@@ -8,16 +8,18 @@ Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca
 
 ```
 .
-├── raw_builder.py          # Extrai dados brutos do Salesforce e salva em RAW (.duckdb)
-├── main.py                 # (Futuro) Transformação e carregamento para camada TRUSTED
-├── sf_utils.py             # Funções auxiliares de integração com Salesforce
-├── db_utils.py             # Funções para salvar e carregar dados do DuckDB e SQLite
-├── inspector.py            # Explora tabelas e dados salvos localmente
+├── raw_builder.py                  # Extrai dados brutos do Salesforce e salva em RAW (.duckdb)
+├── main.py                         # Transformação e carregamento para camada STAGE (tipagem e limpeza)
+├── trusted_builder.py (futuro)     # Transformação e carregamento para camada TRUSTED (modelagem final)
+├── transform_utils.py (futuro)     # Funções auxiliares para tratamento
+├── sf_utils.py                     # Funções auxiliares de integração com Salesforce
+├── db_utils.py                     # Funções para salvar e carregar dados do DuckDB e SQLite
+├── inspector.py                    # Explora tabelas e dados salvos localmente
 ├── requirements.txt
 ├── README.md
 └── db/
-    ├── raw_salesforce.duckdb      # Camada RAW: dados brutos do Salesforce
-    ├── (stage_salesforce.duckdb)  # (Futuro) Dados parcialmente tratados
+    ├── raw_salesforce.duckdb       # Camada RAW: dados brutos do Salesforce
+    ├── stage_salesforce.duckdb     # Dados parcialmente tratados
     └── (trusted_salesforce.duckdb) # (Futuro) Dados prontos para análise
 ```
 
@@ -67,3 +69,5 @@ python inspector.py
 ## 🙋‍♂️ Contribuições
 
 Sinta-se à vontade para sugerir melhorias, organizar scripts em camadas, ou adaptar para outro CRM.
+
+---
