@@ -25,30 +25,32 @@ def consultar_completo(query):
         registros.extend(resultado['records'])
     return registros
 
-# Consulta Account 
-records_account = consultar_completo("SELECT Id, Name FROM Account")
-df_account = pd.DataFrame(records_account).drop(columns='attributes')
-salvar_em_duckdb(df_account, tabela="sf_account")
-print(f"✅ Account: {len(df_account)} registros salvos.")
-
-# Consulta Order
-records_order = consultar_completo("SELECT Id, OrderNumber FROM Order")
-df_order = pd.DataFrame(records_order).drop(columns='attributes')
-salvar_em_duckdb(df_order, tabela="sf_order")
-print(f"✅ Contact: {len(df_order)} registros salvos.")
-
-# Salva nos bancos Account
-salvar_em_duckdb(df_account, tabela="sf_account")
-salvar_em_sqlite(df_account, tabela="sf_account")
-print(f"✅ Account: {len(df_account)} registros salvos em DuckDB e SQLite.")
-
-# Salva nos bancos Order
-salvar_em_duckdb(df_order, tabela="sf_order")
-salvar_em_sqlite(df_order, tabela="sf_order")
-print(f"✅ Contact: {len(df_order)} registros salvos em DuckDB e SQLite.")
+# Dicionário com nome da tabela local e a respectiva consulta SOQL
+objetos_soql = {
+    "sf_account": "SELECT Id, Name FROM Account",
+    "sf_contact": "SELECT Id, LastName, Email FROM Contact",
+    "sf_order": "SELECT Id, Status, EffectiveDate FROM Order"
+}
 
 # Salvar em CSV
-df_account.to_csv("teste_account_salesforce.csv", index=False)
+# df_account.to_csv("teste_account_salesforce.csv", index=False)
+
+# Loop para consultar e salvar os dados de cada objeto
+for tabela, soql in objetos_soql.items():
+    print(f"🔍 Consultando {tabela}...")
+
+    try:
+        registros = consultar_completo(soql)
+        df = pd.DataFrame(registros).drop(columns='attributes')
+        
+        # Salva em DuckDB e SQLite
+        salvar_em_duckdb(df, tabela=tabela)
+        salvar_em_sqlite(df, tabela=tabela)
+
+        print(f"✅ {tabela}: {len(df)} registros salvos em DuckDB e SQLite.")
+    
+    except Exception as e:
+        print(f"❌ Erro ao consultar {tabela}: {e}")
 
 
 # Conectando e listando as tabelas criadas DuckDB
@@ -57,20 +59,25 @@ tables = conn.execute("SHOW TABLES").fetchall()
 print("Tabelas existentes:", tables)
 
 # Excluindo tabela DuckDB
-conn.execute("DROP TABLE IF EXISTS account")
-tables = conn.execute("SHOW TABLES").fetchall()
-print("Tabelas existentes:", tables)
+# conn.execute("DROP TABLE IF EXISTS account")
+# tables = conn.execute("SHOW TABLES").fetchall()
+# print("Tabelas existentes:", tables)
 
 # Verifica a estrutura da tabela DuckDB
-conn.execute("DESCRIBE sf_order").fetchdf()
-conn.execute("DESCRIBE sf_account").fetchdf()
+for tabela in tables:
+    nome = tabela[0]
+    print(f"📋 Estrutura da tabela: {nome}")
+    estrutura = conn.execute(f'DESCRIBE "{nome}"').fetchdf()
+    print(estrutura, "\n")
 
-# Consulta as tabelas DuckDB
-consulta_order = conn.execute("SELECT * FROM sf_order where Id = '8014y000002rFK2AAM' limit 10").fetchdf()
-print(consulta_order)
+conn.close()
+
+# # Consulta as tabelas DuckDB
+# consulta_order = conn.execute("SELECT * FROM sf_order limit 10").fetchdf()
+# print(consulta_order)
 
 # Encerrar conexão ativa com banco DuckDB
-conn.close()
+# conn.close()
 
 # Conecta ao banco SQLite
 conn = sqlite3.connect("db/dados_salesforce.db")
@@ -80,22 +87,33 @@ cursor = conn.cursor()
 cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
 tabelas = cursor.fetchall()
 
-# Mostra o nome das tabelas
+# Mostra o nome das tabelas SQLite
 print("Tabelas encontradas:")
 for t in tabelas:
     print("-", t[0])
 
-# Consulta ao banco SQLite
-consulta_order = pd.read_sql_query(
-    "SELECT * FROM sf_order LIMIT 10",
-    conn
-)
+# Verifica a estrutura da tabela SQLite
+for tabela in tabelas:
+    nome = tabela[0]
+    print(f"📋 Estrutura da tabela: {nome}")
+    
+    # PRAGMA retorna a estrutura da tabela
+    estrutura = pd.read_sql_query(f"PRAGMA table_info('{nome}')", conn)
+    print(estrutura, "\n")
 
-# Exibe o resultado
-print(consulta_order)
-
-# Encerrar conexão ativa com banco SQLite
 conn.close()
 
+# Consulta ao banco SQLite
+# consulta_order = pd.read_sql_query(
+#     "SELECT * FROM sf_order LIMIT 10",
+#     conn
+# )
 
+# Exibe o resultado
+# print(consulta_order)
+
+# Encerrar conexão ativa com banco SQLite
+# conn.close()
+
+print("✅ Script executado com sucesso.")
 # %%

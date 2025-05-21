@@ -111,8 +111,8 @@ python main.py
 
 ## 🚀 Possíveis melhorias futuras
 
-- Consulta dinâmica de diferentes objetos Salesforce.
 - Atualização incremental das tabelas DuckDB e SQLite.
+- Consulta de colunas disponíveis nos Objetos Salesforce?
 - Automatização da atualização.
 
 ---
