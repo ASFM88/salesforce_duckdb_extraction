@@ -1,7 +1,4 @@
-simple-salesforce
 pandas
-requests
-keyring
 duckdb
-sqlite3
-ipykernel
+simple-salesforce
+keyring
