@@ -72,13 +72,16 @@ python main.py
 
 ```
 .
-├── main.py              # Script principal de extração e gravação no banco
-├── db_utils.py          # Função auxiliar para salvar DataFrame no DuckDB
-├── sf_utils.py          # Funções auxiliares do Salesforce (SOQL, describe, paginação)
-├── db/                  # Contém o banco local (dados_salesforce.duckdb)
-├── .gitignore           # Arquivos ignorados no controle de versão
-├── requirements.txt     # Bibliotecas necessárias
-└── README.md            # Documentação do projeto
+├── main.py               # Script principal: conecta ao Salesforce, consulta e salva dados
+├── db_utils.py           # Funções para salvar DataFrames no DuckDB e SQLite
+├── sf_utils.py           # Funções auxiliares relacionadas ao Salesforce (consulta paginada, parsing SOQL)
+├── inspector.py          # Script utilitário para explorar tabelas e dados nos bancos locais
+├── requirements.txt      # Bibliotecas necessárias para rodar o projeto
+├── .gitignore            # Ignora arquivos sensíveis e desnecessários (como .db, .duckdb, .csv, etc.)
+├── README.md             # Documentação do projeto
+└── db/                   # Pasta onde os bancos locais são salvos
+    ├── dados_salesforce.duckdb
+    └── dados_salesforce.db
 ```
 
 ---
