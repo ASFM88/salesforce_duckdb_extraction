@@ -2,6 +2,7 @@
 *.duckdb
 *.duckdb.wal
 *.db
+*.sqlite
 senhas.py
 
 # Ignorar exportações e arquivos temporários

@@ -1,5 +1,7 @@
 #%%
 import duckdb
+import sqlite3
+import os
 from utils import transform_utils as tu
 
 STAGE_DB = "db/stage_salesforce.duckdb"
@@ -59,6 +61,27 @@ for tabela in TABELAS:
         print(f"❌ Erro ao processar '{tabela}': {e}\n")
 
 con_stage.close()
-con_trusted.close()
 
+# Caminho do novo banco SQLite
+SQLITE_STAGE_PATH = "db/stage_salesforce.sqlite"
+
+# Remove o SQLite anterior (opcional: sobrescrever)
+if os.path.exists(SQLITE_STAGE_PATH):
+    os.remove(SQLITE_STAGE_PATH)
+
+# Conexão com SQLite
+sqlite_conn = sqlite3.connect(SQLITE_STAGE_PATH)
+
+print("\n🟠 Salvando dados da camada STAGE também no SQLite...")
+for tabela in TABELAS:
+    try:
+        nome_trusted = tabela
+        df = con_trusted.execute(f'SELECT * FROM "{nome_trusted}"').df()
+        df.to_sql(tabela, sqlite_conn, index=False)
+        print(f"✅ Tabela '{tabela}' salva no SQLite.")
+    except Exception as e:
+        print(f"❌ Erro ao salvar '{tabela}' no SQLite: {e}")
+
+sqlite_conn.close()
+con_trusted.close()
 #%%

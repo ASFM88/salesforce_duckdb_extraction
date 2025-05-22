@@ -12,6 +12,7 @@ Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca
 
 ```
 .
+├── run_pipeline.py                 # Orquestra execução completa: RAW ➝ STAGE ➝ TRUSTED
 ├── raw_builder.py                  # Extrai dados brutos do Salesforce e salva em RAW (.duckdb)
 ├── stage_builder.py                # Transformação e carregamento para camada STAGE (tipagem e limpeza)
 ├── trusted_builder.py              # Transformação e carregamento para camada TRUSTED (modelagem final)
@@ -24,60 +25,49 @@ Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca
 │   └── db_utils.py                 # Funções para salvar e carregar dados do DuckDB e SQLite
 ├── tools/
 │   └──inspector.py                 # Explora tabelas e dados salvos localmente
-├── db/
-│   ├── raw_salesforce.duckdb       # Camada RAW: dados brutos extraídos
-│   ├── stage_salesforce.duckdb     # Camada STAGE: dados levemente tratados
-│   └── trusted_salesforce.duckdb   # Camada TRUSTED: dados prontos para análise
+└── db/
+    ├── raw_salesforce.duckdb       # Camada RAW: dados brutos extraídos
+    ├── stage_salesforce.duckdb     # Camada STAGE: dados levemente tratados
+    └── trusted_salesforce.duckdb   # Camada TRUSTED: dados prontos para análise
 
 ```
 
 ---
 
-## 🚀 Como usar
+## 🚀 Como executar o pipeline completo
 
-### 1. Extrair dados do Salesforce → camada RAW
+```bash
+python run_pipeline.py
+```
+
+Este comando executa as três camadas em sequência:
+
+1. `raw_builder.py` → coleta dados do Salesforce  
+2. `stage_builder.py` → prepara os dados  
+3. `trusted_builder.py` → aplica transformações finais
+
+---
+
+## 🛠️ Execução individual (opcional)
+
+Você pode executar cada etapa separadamente, se desejar:
 
 ```bash
 python raw_builder.py
-```
-
-- Usa `simple_salesforce` para autenticação e extração
-- Salva objetos do Salesforce em `db/raw_salesforce.duckdb`
-
----
-
-### 2. Gerar camada STAGE a partir da RAW
-
-```bash
 python stage_builder.py
-```
-
-- Usa `simple_salesforce` para autenticação e extração
-- Salva objetos do Salesforce em `db/stage_salesforce.duckdb`
-
----
-
-### 3. Gerar camada TRUSTED a partir da STAGE
-
-```bash
 python trusted_builder.py
 ```
 
-- Lê as tabelas da `stage_salesforce.duckdb`
-- Padroniza nomes de colunas
-- Mantém apenas os campos relevantes por tabela
-- Salva resultado final em `trusted_salesforce.duckdb`
-
 ---
 
-### 4. Inspecionar as camadas e tabelas disponíveis
+## 🔎 Inspecionar o banco de dados
 
 ```bash
 python inspector.py
 ```
 
 - Lista as tabelas presentes nas camadas RAW, STAGE e TRUSTED
-- Mostra quantidade de colunas e registros por tabela
+- Mostra número de colunas e registros
 - Ajuda a validar o pipeline e depurar inconsistências
 
 ---
