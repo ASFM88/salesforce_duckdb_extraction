@@ -63,16 +63,16 @@ for tabela in TABELAS:
 con_stage.close()
 
 # Caminho do novo banco SQLite
-SQLITE_STAGE_PATH = "db/stage_salesforce.sqlite"
+SQLITE_TRUSTED_PATH = "db/trusted_salesforce.sqlite"
 
 # Remove o SQLite anterior (opcional: sobrescrever)
-if os.path.exists(SQLITE_STAGE_PATH):
-    os.remove(SQLITE_STAGE_PATH)
+if os.path.exists(SQLITE_TRUSTED_PATH):
+    os.remove(SQLITE_TRUSTED_PATH)
 
 # Conexão com SQLite
-sqlite_conn = sqlite3.connect(SQLITE_STAGE_PATH)
+sqlite_conn = sqlite3.connect(SQLITE_TRUSTED_PATH)
 
-print("\n🟠 Salvando dados da camada STAGE também no SQLite...")
+print("\n🟠 Salvando dados da camada TRUSTED também no SQLite...")
 for tabela in TABELAS:
     try:
         nome_trusted = tabela
