@@ -32,7 +32,9 @@ CAMPOS_POR_TABELA = {
     "pagamento": ["id", "pedido__c", "formapagamento__c", "valorpagamento__c"],
     "product2": ["id", "name", "familia__c", "ativo", "codigo__c"],
     "pricebook2": ["id", "name", "isactive"],
-    "top": ["id", "pedido__c", "data_entrega__c"],
+    "top": ["id", "name", "status__c", "comentarios__c", "tipo_de_operacao__c", "frete__c", 
+            "faturamento_antecipado__c", "produtos_revenda__c", "gera_financeiro__c", 
+            "unidade_produtora__c", "cidade_entrega__c", "suframa__c", "createdbyid"],
     "previsao_entrega_produto": ["id", "name", "hedge__c", "valorhedge__c", "diashedge__c", 
                                  "condicao_pagamento__c", "ultimadatainseta__c", "jurosdiario__c", 
                                  "vencimento_financeiro__c", "jurosantecipacao__c", "prazocontratodias__c", 
@@ -47,13 +49,23 @@ CAMPOS_POR_TABELA = {
                                  "name", "data__c", "cadencia__c", "enderecoentrega__c", "cliente_final__c", 
                                  "cidade_de_entrega__c", "sub_regiao_de_entrega__c", "roteiro__c", "novo_roteiro__c", 
                                  "observacoes__c", "observacoes_internas__c", "createdbyid", "data_vigor__c", 
-                                 "datainiciofrete__c", "datafinalfrete__c"],
+                                 "datainiciofrete__c", "datafinalfrete__c", "valormes1__c", "valormes2__c", 
+                                 "valormes3__c", "valormes4__c", "valormes5__c", "valormes6__c", "valormes7__c", 
+                                 "valormes8__c", "valormes9__c", "valormes10__c","valormes11__c", "valormes12__c", 
+                                 "valormes13__c", "valormes14__c", "valormes15__c", "valormes16__c", "valormes17__c", 
+                                 "valormes18__c", "valormes19__c", "valormes20__c", "valormes21__c", "valormes22__c",
+                                 "valormes23__c", "valormes24__c", ],
     "clientefinalentrega": ["id", "name", "previsaoentregaproduto__c", 
                             "produtocontrato__c", "conta__c", "endereco__c", 
                             "enderecofaturamento__c", "datainicialentrega__c", 
                             "datafinalentrega__c", "status__c", "dataexecucao__c", 
                             "volume_a_entregar__c", "saldo__c", "createdbyid"],
-    "frete": ["id", "pedido__c", "transportadora__c", "valor__c"]
+    "frete": ["id", "name", "data_vigor__c", "datafinal__c", "cidade_origem__c", "cidade_destino__c", 
+              "sub_regiao_destino__c", "valormes1__c", "valormes2__c", "valormes3__c", "valormes4__c", 
+              "valormes5__c", "valormes6__c", "valormes7__c", "valormes8__c", "valormes9__c", "valormes10__c", 
+              "valormes11__c", "valormes12__c", "valormes13__c", "valormes14__c", "valormes15__c", "valormes16__c", 
+              "valormes17__c", "valormes18__c", "valormes19__c", "valormes20__c", "valormes21__c", "valormes22__c", 
+              "valormes23__c", "valormes24__c", "createdbyid"]
 }
 
 con_stage = duckdb.connect(STAGE_DB)
