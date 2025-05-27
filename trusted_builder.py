@@ -69,7 +69,7 @@ CAMPOS_POR_TABELA = {
                         "codigo_externo__c", "recordtypeid", "createdbyid", "lastmodifiedbyid"],
     "unidade": ["id", "name", "status__c", "nome_resumido__c", "tipo__c", "tipo_entrega__c", "tipo_unidade__c", 
                 "currencyisocode", "raz_o_social__c", "cnpj__c", "inscricao_estadual__c", "cidade__c", 
-                "endereco__c", "capacidade_diaria__c", "codigo_externo__c", "recordtypeid", "createdbyid", "lastmodifiedbyid"],
+                "endereco__c", "capacidade_diaria__c", "codigo_externo__c", "codigosap__c", "recordtypeid", "createdbyid", "lastmodifiedbyid"],
     "vencimento_pedido": ["id", "name", "pedido__c", "valor__c", "statuspagamento__c", "currencyisocode", 
                           "valor_pago__c", "saldodevedor__c", "status__c", "createdbyid", "lastmodifiedbyid"],
     "pagamento": ["id", "name", "cliente__c", "tipo_vencimento__c", "data_hora_recebimento__c", 
