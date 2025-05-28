@@ -1,10 +1,12 @@
 # 🔄 Consulta de Dados Salesforce com Armazenamento Local em Camadas
 
-Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca `simple_salesforce`, e armazena os dados localmente em **camadas** usando o banco de dados **DuckDB**. A estrutura segue boas práticas de arquitetura de dados para ambientes de ETL/ELT.
+Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca `simple_salesforce`, e armazena os dados localmente em **camadas** usando o banco de dados **DuckDB** e **SQLite**. A estrutura segue boas práticas de arquitetura de dados para ambientes de ETL/ELT.
 
 ![Python](https://img.shields.io/badge/Python-3.12%2B-blue)
-![DuckDB](https://img.shields.io/badge/DuckDB-embedded-lightgrey)
 ![Salesforce](https://img.shields.io/badge/Salesforce-API--v59-00A1E0)
+![DuckDB](https://img.shields.io/badge/DuckDB-embedded-lightgrey)
+![SQLite](https://img.shields.io/badge/SQLite-3.x-blue)
+
 
 ---
 
@@ -16,6 +18,7 @@ Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca
 ├── raw_builder.py                  # Extrai dados brutos do Salesforce e salva em RAW (.duckdb)
 ├── stage_builder.py                # Transformação e carregamento para camada STAGE (tipagem e limpeza)
 ├── trusted_builder.py              # Transformação e carregamento para camada TRUSTED (modelagem final)
+├── export_sqlite.py                # Exporta camadas para bancos SQLite
 ├── gitignore                       # Arquivos que devem ser ignorados.
 ├── requirements.txt
 ├── README.md
@@ -43,9 +46,10 @@ python run_pipeline.py
 
 Este comando executa as três camadas em sequência:
 
-1. `raw_builder.py` → coleta dados do Salesforce  
-2. `stage_builder.py` → prepara os dados  
+1. `raw_builder.py`     → coleta dados do Salesforce  
+2. `stage_builder.py`   → prepara os dados  
 3. `trusted_builder.py` → aplica transformações finais
+4. `export_sqlite.py`   → salva os bancos no SQLite
 
 ---
 
@@ -57,6 +61,7 @@ Você pode executar cada etapa separadamente, se desejar:
 python raw_builder.py
 python stage_builder.py
 python trusted_builder.py
+python export_sqlite.py
 ```
 
 ---
