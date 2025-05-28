@@ -29,6 +29,7 @@ objetos_raw = {
     "raw_unidade": "stage_unidade",
     "raw_vencimento_contrato": "stage_vencimento_pedido",
     "raw_pagamento": "stage_pagamento",
+    "raw_proposta": "stage_proposta",
     "raw_product": "stage_product2",
     "raw_pricebook": "stage_pricebook2",
     "raw_top": "stage_top",

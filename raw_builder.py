@@ -33,6 +33,7 @@ objetos = {
     "raw_vencimento_contrato": "Vencimento_Pedido__c",
     "raw_pagamento": "Pagamento__c",
     "raw_product": "Product2",
+    "raw_proposta": "Proposta_Credito__c",
     "raw_pricebook": "Pricebook2",
     "raw_top": "TOP__c",
     "raw_previsao_entrega": "Previsao_Entrega_Produto__c",
