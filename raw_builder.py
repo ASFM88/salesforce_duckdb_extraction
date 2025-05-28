@@ -2,6 +2,7 @@ import os
 os.environ["REQUESTS_CA_BUNDLE"] = ""  # Ignora verificação SSL (em redes com proxy)
 
 from simple_salesforce import Salesforce
+from utils.update_handler import atualiza_incremental # type: ignore
 import pandas as pd
 import keyring  # type: ignore
 import duckdb
@@ -43,34 +44,32 @@ objetos = {
 os.makedirs("db", exist_ok=True)
 conn = duckdb.connect("db/raw_salesforce.duckdb")
 
-# Loop de exportação
+# Loop de extração e atualização incremental
 for nome_tabela, objeto_sf in objetos.items():
     try:
-        # Recupera todos os campos via describe
+        print(f"\n🔄 Processando objeto '{objeto_sf}' → tabela '{nome_tabela}'")
+
+        # Descreve os campos do objeto
         descricao = getattr(sf, objeto_sf).describe()
         campos = [f["name"] for f in descricao["fields"]]
         soql = "SELECT " + ", ".join(campos) + f" FROM {objeto_sf}"
 
-        # Paginação da consulta
+        # Paginação
         resultado = sf.query(soql)
         registros = resultado["records"]
         while not resultado["done"]:
             resultado = sf.query_more(resultado["nextRecordsUrl"], True)
             registros.extend(resultado["records"])
 
-        # Transforma em DataFrame e trata para compatibilidade com DuckDB
+        # Transforma em DataFrame
         df = pd.DataFrame(registros).drop(columns="attributes", errors="ignore")
-        df = df.fillna("")      # Substitui todos os nulos por string vazia
-        df = df.astype(str)     # Converte todas as colunas para string
+        df = df.fillna("").astype(str)
 
-        # Criação da tabela RAW no DuckDB
-        conn.execute(f'DROP TABLE IF EXISTS "{nome_tabela}"')
-        conn.execute(f'CREATE TABLE "{nome_tabela}" AS SELECT * FROM df')
+        # Aplica atualização incremental
+        atualiza_incremental(conn, nome_tabela, df)
 
-        print(f"✅ {nome_tabela}: {len(df)} registros salvos com todos os campos.")
-    
     except Exception as e:
         print(f"❌ Erro ao processar {objeto_sf} → {e}")
 
 conn.close()
-print("✅ Script executado com sucesso.")
+print("\n✅ Script executado com sucesso.")

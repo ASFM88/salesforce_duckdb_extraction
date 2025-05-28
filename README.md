@@ -23,6 +23,7 @@ Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca
 │   ├── transform_utils.py          # Funções auxiliares para tratamento
 │   ├── sf_utils.py                 # Funções auxiliares de integração com Salesforce
 │   └── db_utils.py                 # Funções para salvar e carregar dados do DuckDB e SQLite
+│   └── update_handler.py           # Funções para atualização incremental do arquivo
 ├── tools/
 │   └──inspector.py                 # Explora tabelas e dados salvos localmente
 └── db/
@@ -74,10 +75,22 @@ python inspector.py
 
 ## ✅ Transformações aplicadas
 
-As transformações são aplicadas com suporte do módulo `utils/transform_utils.py`, contendo funções como:
+A camada de transformação utiliza funções localizadas em `utils/`, com destaque para os seguintes módulos:
 
-- `padronizar_colunas()` → minúsculas, snake_case, remove caracteres especiais
-- `manter_colunas()` → mantém apenas campos desejados por tabela (ignora faltantes)
+- `transform_utils.py`  
+  - `padronizar_colunas()` → converte nomes para minúsculas e snake_case
+  - `manter_colunas()` → mantém apenas os campos relevantes por tabela
+
+- `sf_utils.py`  
+  - Funções auxiliares para autenticação e comunicação com a API do Salesforce
+
+- `db_utils.py`  
+  - Funções de leitura e escrita em DuckDB e SQLite, criação de pastas, e controle de arquivos
+
+- `update_handler.py`  
+  - Função `atualiza_incremental()` para atualização de registros com base em `Id` e `LastModifiedDate`
+  - Criação da coluna `data_inclusao_bd`
+  - Armazenamento de versões antigas dos registros alterados nas tabelas `*_hist_update`
 
 ---
 
@@ -88,11 +101,11 @@ As transformações são aplicadas com suporte do módulo `utils/transform_utils
 
 ---
 
-📌 Próximos passos (em desenvolvimento)
-- Criar backup do `stage_salesforce.duckdb` no SQLite.
-- Adicionar novas funções para tratamento dos dados no módulo `utils/transform_utils.py`
-- Inclusão atualização incremental do `raw_salesforce.duckdb`
-- Criar um `run_pipeline.py` que execute RAW ➝ STAGE ➝ TRUSTED
+📌 Próximos passos
+- Criar coluna de comparação automática nos `_hist_update` para identificar os campos alterados
+- Modularizar criação de relatórios e visualizações com base nos dados da camada TRUSTED
+- Orquestrar o fluxo de execução (RAW ➝ STAGE ➝ TRUSTED) com agendamento diário utilizando ferramentas como **Apache Airflow** ou **crontab**
+- Gerar monitoramento e logs para controle de falhas e validação do pipeline em produção
 
 ---
 
