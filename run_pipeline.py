@@ -1,11 +1,13 @@
 import subprocess
-import sys
 import time
+import sys
+import os
 
 PIPELINE_ETAPAS = [
     ("🔄 Executando RAW Builder", "raw_builder.py"),
     ("⚙️ Executando STAGE Builder", "stage_builder.py"),
     ("🚀 Executando TRUSTED Builder", "trusted_builder.py"),
+    ("🧩 Criando tabelas finais", "final_builder.py"),
     ("📤 Exportando para SQLite", "export_sqlite.py")
 ]
 

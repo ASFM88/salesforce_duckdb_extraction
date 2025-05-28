@@ -18,11 +18,11 @@ Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca
 ├── gitignore                       # Arquivos que devem ser ignorados.
 ├── requirements.txt
 ├── README.md
-├── pipelines/
-│   ├── raw_builder.py              # Extrai dados brutos do Salesforce e salva em RAW (.duckdb)
-│   ├── stage_builder.py            # Transformação e carregamento para camada STAGE (tipagem e limpeza)
-│   ├── trusted_builder.py          # Transformação e carregamento para camada TRUSTED (modelagem final)
-│   ├── export_sqlite.py            # Exporta camadas para bancos SQLite
+├── raw_builder.py              # Extrai dados brutos do Salesforce e salva em RAW (.duckdb)
+├── stage_builder.py            # Transformação e carregamento para camada STAGE (tipagem e limpeza)
+├── trusted_builder.py          # Transformação e carregamento para camada TRUSTED (modelagem final)
+├── final_builder.py            # Módulo para criação das tabelas analíticas finais
+├── export_sqlite.py            # Exporta camadas para bancos SQLite
 ├── utils/
 │   ├── transform_utils.py          # Funções auxiliares para tratamento
 │   ├── sf_utils.py                 # Funções auxiliares de integração com Salesforce
