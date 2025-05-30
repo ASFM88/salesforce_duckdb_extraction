@@ -38,7 +38,8 @@ objetos = {
     "raw_top": "TOP__c",
     "raw_previsao_entrega": "Previsao_Entrega_Produto__c",
     "raw_cliente_final": "Clientefinalentrega__c",
-    "raw_frete": "Frete__c"
+    "raw_frete": "Frete__c",
+    "raw_territorio": "Territory2"
 }
 
 # Conexão com o banco RAW do DuckDB

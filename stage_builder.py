@@ -35,7 +35,9 @@ objetos_raw = {
     "raw_top": "stage_top",
     "raw_previsao_entrega": "stage_previsao_entrega_produto",
     "raw_cliente_final": "stage_clientefinalentrega",
-    "raw_frete": "stage_frete"
+    "raw_frete": "stage_frete",
+    "raw_territorio": "stage_territorio",
+    "raw_userterritorio": "stage_userterritorio"
 }
 
 # Loop de transformação básica

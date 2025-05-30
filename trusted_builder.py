@@ -11,7 +11,7 @@ TABELAS = [
     "recordtype", "user", "account", "contact", "cultura", "culturacliente", "endereco", "cidade",
     "subregiao", "order", "orderitem", "vendedores", "tabela_de_comissao", "tipo_negociacao",
     "unidade", "vencimento_pedido", "pagamento", "product2", "pricebook2",
-    "top", "previsao_entrega_produto", "clientefinalentrega", "frete"
+    "top", "previsao_entrega_produto", "clientefinalentrega", "frete", "territorio", "userterritorio"
 ]
 
 CAMPOS_POR_TABELA = {
@@ -121,7 +121,9 @@ CAMPOS_POR_TABELA = {
               "valormes5__c", "valormes6__c", "valormes7__c", "valormes8__c", "valormes9__c", "valormes10__c", 
               "valormes11__c", "valormes12__c", "valormes13__c", "valormes14__c", "valormes15__c", "valormes16__c", 
               "valormes17__c", "valormes18__c", "valormes19__c", "valormes20__c", "valormes21__c", "valormes22__c", 
-              "valormes23__c", "valormes24__c", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"]
+              "valormes23__c", "valormes24__c", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
+    "territorio": ["id", "name", "developername", "codigo_do_territorio__c", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
+    "userterritorio": ["id", "userid", "territory2id", "lastmodifiedbyid", "data_inclusao_bd"]
 }
 
 con_stage = duckdb.connect(STAGE_DB)
