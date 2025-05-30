@@ -15,7 +15,7 @@ Este projeto realiza a extração de dados do Salesforce utilizando a biblioteca
 ```
 .
 ├── run_pipeline.py             # Orquestra execução completa: RAW ➝ STAGE ➝ TRUSTED
-├── gitignore                       # Arquivos que devem ser ignorados.
+├── gitignore                   # Arquivos que devem ser ignorados.
 ├── requirements.txt
 ├── README.md
 ├── raw_builder.py              # Extrai dados brutos do Salesforce e salva em RAW (.duckdb)
