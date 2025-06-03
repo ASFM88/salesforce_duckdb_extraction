@@ -25,3 +25,24 @@ def padronizar_colunas(df: pd.DataFrame) -> pd.DataFrame:
         .str.replace(r"[^\w_]", "", regex=True)
     )
     return df
+
+def alinhar_colunas(df_novo: pd.DataFrame, df_antigo: pd.DataFrame) -> pd.DataFrame:
+    """
+    Alinha o df_novo para ter a mesma estrutura de colunas que df_antigo,
+    incluindo colunas extras ou faltantes, mantendo a ordem original.
+    """
+    colunas_antigas = set(df_antigo.columns)
+    colunas_novas = set(df_novo.columns)
+
+    # Adiciona colunas faltantes no df_antigo
+    for coluna in colunas_novas - colunas_antigas:
+        df_antigo[coluna] = None
+
+    # Adiciona colunas removidas no df_novo
+    for coluna in colunas_antigas - colunas_novas:
+        df_novo[coluna] = None
+
+    # Reordena df_novo para a mesma ordem do df_antigo
+    df_novo = df_novo[df_antigo.columns]
+
+    return df_novo
