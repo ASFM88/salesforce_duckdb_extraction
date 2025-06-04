@@ -42,7 +42,7 @@ CAMPOS_POR_TABELA = {
               "quantidade_faturada__c", "saldo_quantidade__c", "valorpedido__c", "valor_faturado__c", 
               "saldo_financeiro__c", "valorpagopedido__c", "saldo_de_pagamento__c", "diretor__c", 
               "gerentenacionalvenda__c", "gerente__c", "supervisor__c", "diretoria__c", "gerencianacionalvenda__c", 
-              "gerencia__c", "territorio__c", "ownerid", "effectivedate", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
+              "gerencia__c", "id_territorio__c ", "territorio__c", "ownerid", "effectivedate", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
     "orderitem": ["id", "orderid", "cultura__c", "top__c", "frete__c", "status__c", "statusproduto__c", 
                   "ordemcompracliente__c", "seqordemcompracliente__c", "unidadefaturamento__c", "quantity", 
                   "quantidade_editada__c", "quantidade_faturada__c", "saldo_quantidade__c", "totalprice", 

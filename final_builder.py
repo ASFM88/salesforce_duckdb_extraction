@@ -48,6 +48,7 @@ TABELAS_FINAIS = {
             a.diretoria__c as VicePresidencia,
             a.gerencianacionalvenda__c as Diretoria,
             a.gerencia__c as Gerencia,
+            a.id_territorio__c as TerritorioId,
             a.territorio__c as Territorio,
             h_proprietario.name as ProprietarioContrato,
             a.data_inclusao_bd 
@@ -61,6 +62,7 @@ TABELAS_FINAIS = {
             FROM unidade a 
             LEFT JOIN recordtype b ON a.recordtypeid = b.id
         ) f ON a.unidade_faturamento__c = f.id
+        LEFT JOIN territorio t ON t.id = a.id_territorio__c
         LEFT JOIN tipo_negociacao g ON a.tipo_de_negociacao__c = g.name
         LEFT JOIN "user" h_vp ON a.diretor__c = h_vp.id 
         LEFT JOIN "user" h_diretor ON a.gerentenacionalvenda__c = h_diretor.id
