@@ -20,7 +20,7 @@ CAMPOS_POR_TABELA = {
              "address", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
     "account": ["id", "name", "raizdocumento__c", "creditoliberado__c", "valor_de_cr_dito_exposto__c", 
                 "phone", "telefone_do_contato__c", "grupocliente__c", "segmenta_o__c", 
-                "clientenegativado__c", "ownerid", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
+                "clientenegativado__c", "recordtypeid", "ownerid", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
     "contact": ["id", "name", "accountid", "cpf__c", "phone", "email", "departamento__c", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
     "cultura": ["id", "name", "cliente__c", "cultura__c", "hectare__c", 
                 "dosagem__c", "potencial_de_consumo_ton__c", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
