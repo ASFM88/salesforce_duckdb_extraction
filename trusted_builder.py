@@ -123,7 +123,16 @@ CAMPOS_POR_TABELA = {
               "valormes17__c", "valormes18__c", "valormes19__c", "valormes20__c", "valormes21__c", "valormes22__c", 
               "valormes23__c", "valormes24__c", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
     "territorio": ["id", "name", "developername", "codigo_do_territorio__c", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
-    "userterritorio": ["id", "userid", "territory2id", "lastmodifiedbyid", "data_inclusao_bd"]
+    "userterritorio": ["id", "userid", "territory2id", "lastmodifiedbyid", "data_inclusao_bd"],
+    "notafiscal" : ["id", 	"isdeleted", "name", "currencyisocode", "createddate",	"createdbyid", "lastmodifieddate", 
+                    "lastmodifiedbyid", "systemmodstamp", "lastvieweddate", "lastreferenceddate", "pedido__c", 
+                    "cliente__c", "codigo_externo__c", "coordenacao__c", "coordenador__c", "data_faturamento__c", "diretor__c", 
+                    "diretoria__c", "notafiscalvenda__c", "gerencia__c", "gerente__c", "primeiro_vencimento__c", "ptax__c", 
+                    "possuidevolucao__c", "ltimo_vencimento__c", "chavenfe__c", "status__c", "status_financeiro__c", 
+                    "motorista__c", "tipo__c", "unidade_faturamento__c", "placa__c", "valor_frete__c", "nota_venda__c", 
+                    "codigosap__c", "valor_total__c", "valor_de_baixa_em_reais__c", "ptax_de_pagamento__c", "volume__c", 
+                    "supervisor__c", "territorio__c", "coddanfe__c", "codigotransacao__c", "datacancelamento__c", "endereco__c", 
+                    "indicepagamento__c", "tipotransacao__c", "totalrecebimento__c", "ultimadatabaixa__c", "valortotalbaixa__c"]
 }
 
 con_stage = duckdb.connect(STAGE_DB)
