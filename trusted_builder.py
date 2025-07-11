@@ -34,7 +34,7 @@ CAMPOS_POR_TABELA = {
                "sigla_do_estado__c", "codigo_externo__c", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
     "subregiao": ["id", "name", "cidade__c", "status__c", "codigo_externo__c", "createdbyid", "lastmodifiedbyid", "data_inclusao_bd"],
     "order": ["id", "numeropedido__c", "ordemvenda__c", "accountid", "endereco__c", "vendedores__c", 
-              "contratosubstituido__c", "justificativa_margem__c", "proposta__c", "versao__c", 
+              "contratosubstituido__c", "contratofilho__c", "justificativa_margem__c", "proposta__c", "versao__c", 
               "motivosubstituicaocontrato__c", "parentid__c", "condicao_pagamento__c", "observacaonfcontrato__c", 
               "status", "unidade_faturamento__c", "tipo_de_negociacao__c", "currencyisocode", 
               "taxa_dolar_do_catalogo__c", "data_de_negocia_o__c", "margemsugerida__c", 
@@ -132,7 +132,13 @@ CAMPOS_POR_TABELA = {
                     "motorista__c", "tipo__c", "unidade_faturamento__c", "placa__c", "valor_frete__c", "nota_venda__c", 
                     "codigosap__c", "valor_total__c", "valor_de_baixa_em_reais__c", "ptax_de_pagamento__c", "volume__c", 
                     "supervisor__c", "territorio__c", "coddanfe__c", "codigotransacao__c", "datacancelamento__c", "endereco__c", 
-                    "indicepagamento__c", "tipotransacao__c", "totalrecebimento__c", "ultimadatabaixa__c", "valortotalbaixa__c"]
+                    "indicepagamento__c", "tipotransacao__c", "totalrecebimento__c", "ultimadatabaixa__c", "valortotalbaixa__c"],
+    "item_notafiscal" : ["id", "isdeleted", "name", "currencyisocode", "createddate", "createdbyid", "lastmodifieddate",
+                         "lastmodifiedbyid", "systemmodstamp", "lastactivitydate", "nota_fiscal_do_pedido__c", "codigo_externo__c",
+                         "produto__c", "produto_do_pedido__c", "quantidade__c", "valor_base_comiss_o__c", "valor_total__c",
+                         "valor_da_baixa__c", "valor_unitario__c", "clientefinal__c", "idclientefinal__c", "previsaoentrega__c",
+                         "valor_da_comissao__c", "idexternonotafiscalvenda__c", "f_a_only__c", "valor_comiss_o_r__c"]
+
 }
 
 con_stage = duckdb.connect(STAGE_DB)

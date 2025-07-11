@@ -41,7 +41,8 @@ objetos = {
     "raw_frete": "Frete__c",
     "raw_territorio": "Territory2",
     "raw_userterritorio": "UserTerritory2Association",
-    "raw_notafiscal": "Nota_Fiscal_Pedido__c"
+    "raw_notafiscal": "Nota_Fiscal_Pedido__c",
+    "raw_item_notafiscal": "Item_da_Nota_Fiscal_do_Pedido__c"
 }
 
 # Conexão com o banco RAW do DuckDB

@@ -38,7 +38,8 @@ objetos_raw = {
     "raw_frete": "stage_frete",
     "raw_territorio": "stage_territorio",
     "raw_userterritorio": "stage_userterritorio",
-    "raw_notafiscal": "stage_notafiscal"
+    "raw_notafiscal": "stage_notafiscal",
+    "raw_item_notafiscal": "stage_item_notafiscal"
 }
 
 # Loop de transformação básica
